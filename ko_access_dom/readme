@@ -1,0 +1,2 @@
+This code uses a custom binding and subscriber to access the DOM.
+It does the same thing as the select_all demo

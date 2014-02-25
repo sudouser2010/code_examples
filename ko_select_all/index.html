@@ -1,0 +1,77 @@
+<html>
+	<head>
+			<!-- ~~~~~~~~~~~~Knockout~~~~~~~~~~~~ -->
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js" ></script>
+	</head>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Selected</th><th>Name</th><th>Age</th><th>Sport</th>
+			</tr>
+		<thead>
+		<tbody data-bind="foreach: table1">
+			<td>
+				<input  type='checkbox' data-bind="checked:checked">
+			</td>
+			<td data-bind="text: name"></td>
+			<td data-bind="text: age"></td>
+			<td data-bind="text: sport"></td>								
+		</tbody>
+
+	</table>
+	<input type="button" value="Select All Athletes"  	data-bind="click: vm.select_all_athletes_in_table1" />
+	<input type="button" value="Deselect All Athletes"  data-bind="click: vm.deselect_all_athletes_in_table1" />
+	
+	<script>
+	function row(name, age, sport, checked) 
+	{
+		var self = this;
+
+		self.name			= name;			
+		self.age			= age;
+		self.sport			= sport;
+		self.checked		= ko.observable(checked);
+	}	
+	
+	
+	function table() 
+	{
+		var self = this;
+		
+		self.table1			= ko.observableArray([
+		new row("Lebron James", 	"29", "basketball", true),
+		new row("Kobe Bryant", 		"35", "basketball", true),
+		new row("Kevin Durant", 	"25", "basketball", true),
+		new row("Tim Tebow", 		"26", "football", 	true),		
+		]);
+	
+	
+		self.select_all_athletes_in_table1 = function( )
+		{
+			var self = this;
+
+			for(i=0; i< self.table1().length; i++)
+			{
+				self.table1()[i].checked(true);
+			}
+		}
+		
+		self.deselect_all_athletes_in_table1 = function( )
+		{
+			var self = this;
+
+			for(i=0; i< self.table1().length; i++)
+			{
+				self.table1()[i].checked(false);
+			}
+		}
+	}
+	
+	var vm = new table();
+		
+	ko.applyBindings(vm);
+	</script>
+	
+	
+</html>

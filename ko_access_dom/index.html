@@ -1,0 +1,109 @@
+<html>
+	<head>
+		<!-- ~~~~~~~~~~~~Knockout~~~~~~~~~~~~ -->
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js" ></script>
+		
+		<!-- ~~~~~~~~~~~~Jquery~~~~~~~~~~~~ -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	</head>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Selected</th><th>Name</th><th>Age</th><th>Sport</th>
+			</tr>
+		<thead>
+		<tbody data-bind="foreach: table1">
+			<td>
+				<input  type='checkbox' data-bind="accessDOMElement:checked, click: vm.toggle_checked">
+			</td>
+			<td data-bind="text: name"></td>
+			<td data-bind="text: age"></td>
+			<td data-bind="text: sport"></td>								
+		</tbody>
+
+	</table>
+	<input type="button" value="Select All Athletes"  	data-bind="click: vm.select_all_athletes_in_table1" />
+	<input type="button" value="Deselect All Athletes"  data-bind="click: vm.deselect_all_athletes_in_table1" />
+	
+	<script>
+	//-----------------------------------------for accessing the element binded to an observable
+	ko.bindingHandlers.accessDOMElement = {
+		init: function (element, valueAccessor, allBindingsAccessor, viewModel) { 
+		valueAccessor().extend({element: element });
+		}
+	};
+
+	ko.extenders.element = function (target, element) 
+	{
+	  target.DOMElement = element;
+	}
+	//-----------------------------------------for accessing the element binded to an observable
+	
+	function row(name, age, sport, checked) 
+	{
+		var self = this;
+
+		self.name			= name;			
+		self.age			= age;
+		self.sport			= sport;
+		self.checked		= ko.observable(checked);
+		
+		//-------------------------show or hides the checkbox when the variable "checked" changes
+		self.checked.subscribe(function(newValue) {
+			//whenever this observable changes, the html will be updated with jquery
+			//note this does not follow knockout's paradigm
+			$(this.target.DOMElement).prop('checked', newValue);
+		});
+		//-------------------------show or hides the checkbox when the variable "checked" changes		
+	}	
+	
+	
+	function table() 
+	{
+		var self = this;
+		
+		self.table1			= ko.observableArray([
+		new row("Lebron James", 	"29", "basketball", false),
+		new row("Kobe Bryant", 		"35", "basketball", false),
+		new row("Kevin Durant", 	"25", "basketball", false),
+		new row("Tim Tebow", 		"26", "football", 	false),		
+		]);
+	
+	
+		self.select_all_athletes_in_table1 = function( )
+		{
+			var self = this;
+
+			for(i=0; i< self.table1().length; i++)
+			{
+				self.table1()[i].checked(true);
+			}
+		}
+		
+		self.deselect_all_athletes_in_table1 = function( )
+		{
+			var self = this;
+
+			for(i=0; i< self.table1().length; i++)
+			{
+				self.table1()[i].checked(false);
+			}
+		}
+		
+		self.toggle_checked = function(row)
+		{
+			row.checked(!row.checked());
+			return true;
+		}
+		
+		
+	}
+	
+	var vm = new table();
+		
+	ko.applyBindings(vm);
+	</script>
+	
+	
+</html>
