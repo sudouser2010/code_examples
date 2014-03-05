@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dawkins Demo</title>
+</head>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<style>
+    .outer-center 
+	{
+		float: right;
+		right: 50%;
+		position: relative;
+    }
+    .inner-center 
+	{
+		float: right;
+		right: -50%;
+		position: relative;
+    }
+    .clear 
+	{
+		clear: both;
+    }
+	.curved
+	{
+		border-radius:5px;
+	}
+	
+	.bordered
+	{
+		border:solid
+	}
+	#main_div
+	{
+		position:relative; 
+		top:150px;
+		padding-top:30px;
+		padding-bottom:30px;
+		padding-right:55px;
+		padding-left:55px;
+		background-color:rgba(212,212,212,1)
+	}
+	.small_space
+	{
+		height:20px;
+	}
+
+	.input_width
+	{
+		width:200px;
+	}
+	
+	.focused
+	{
+		background-color:rgba(196,248,251,.6);
+		border-color: rgba(82, 168, 236, 0.8);
+		border-width: 2px;
+
+		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+		-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+	}
+</style>
+
+
+<div class="product_container"><div class="outer-center"><div class="product inner-center">
+	<div class='curved bordered' id='main_div'>
+	<input class='input_width respond_to_focus' type="text" placeholder="first name" id="first_name"> 
+	<input class='input_width respond_to_focus' type="text" placeholder="last name"	id="last_name"> <br>
+
+	<div class='small_space'></div>	
+	<div class="product_container"><div class="outer-center"><div class="product inner-center">
+
+		<div class='curved bordered' style='border-width:1px; padding:2px;'>
+			<div style='text-align:center; font-weight:900;'>Select Gender</div>
+			<div class="product_container"><div class="outer-center"><div class="product inner-center">
+				<input class='respond_to_focus' type="radio" value="Male" 	name="g1" 	id="male"> Male
+				<input class='respond_to_focus' type="radio" value="Female"	name="g1"	id="female"> Female
+			</div></div><div class="clear"></div></div>
+		</div>
+		<div class='small_space'></div>	
+		<input class='input_width respond_to_focus' type="text" placeholder="address" 	id="address"> <br>	
+		<input class='input_width respond_to_focus' type="text" placeholder="city"		id="city"> <br>
+		<select style='width:206px' id="state" class='respond_to_focus'>
+		  <option value="TN">TN</option>
+		  <option value="TX">TX</option>
+		  <option value="MS">MS</option>
+		  <option value="AR">AR</option>
+		  <option value="AL">AL</option>
+		</select>
+
+	<div class='small_space'></div>
+	<button type="button" style="display:block; margin:auto; width:100px;height:40px" id="submit">Submit</button>
+	</div></div><div class="clear"></div></div>
+	
+	</div>
+</div></div><div class="clear"></div></div>
+
+<script>
+	$("#submit").click(function() 
+	{
+
+		//------------------------------------------for form validation
+		error = "";		
+		if($("#first_name").val()=="")
+		{
+			error += "Must Enter First Name";
+		}	
+		if($("#last_name").val()=="")
+		{
+			if(error!=""){ error += "\n";}
+			error += "Must Enter Last Name";
+		}	
+		if($("#city").val()=="")
+		{
+			if(error!=""){ error += "\n";}
+			error += "Must Enter City";
+		}	
+		if($("#state").val()=="")
+		{
+			if(error!=""){ error += "\n";}
+			error += "Must Select The State";
+		}
+		if($("#address").val()=="")
+		{
+			if(error!=""){ error += "\n";}
+			error += "Must Enter Address";
+		}		
+		if(!$("#male").is(':checked') && !$("#female").is(':checked'))
+		{
+			if(error!=""){ error += "\n";}
+			error += "Must Select Gender";
+		}		
+		if(error!=""){alert(error) ;} //alerts only if needed
+		//------------------------------------------for form validation
+		
+	});
+
+	//note it would be easier to show focused elements only using css instead of css and javascript
+  $('.respond_to_focus').focusin( function()
+  {
+	$(this).addClass('focused');
+  });
+
+  $('.respond_to_focus').focusout( function()
+  {
+    $(this).removeClass('focused');
+  });
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
